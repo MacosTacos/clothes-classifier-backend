@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/wardrobe")
@@ -38,15 +37,14 @@ public class WardrobeController {
         System.out.println(principal.getName());
         ClothingEntity saved = wardrobeService.addClothingItem(file, principal.getName());
         ClothingDTO resultDto = new ClothingDTO(saved.getImageUrl(), saved.getType());
+
         return ResponseEntity.ok(resultDto);
     }
 
     @GetMapping
     public ResponseEntity<List<ClothingDTO>> getWardrobe(@AuthenticationPrincipal UserEntity user) {
-        List<ClothingEntity> items = wardrobeService.getUserWardrobe(user);
-        List<ClothingDTO> itemDtos = items.stream()
-                .map(item -> new ClothingDTO(item.getImageUrl(), item.getType()))
-                .collect(Collectors.toList());
+        List<ClothingDTO> itemDtos = wardrobeService.getUserWardrobe(user);
+
         return ResponseEntity.ok(itemDtos);
     }
 
@@ -55,10 +53,8 @@ public class WardrobeController {
                                                                @RequestParam("lon") double longitude,
                                                                @AuthenticationPrincipal UserEntity user) {
         WeatherData weather = weatherService.getWeatherForLocation(latitude, longitude);
-        List<ClothingEntity> recommendedItems = wardrobeService.recommendClothing(user, weather);
-        List<ClothingDTO> resultDtos = recommendedItems.stream()
-                .map(item -> new ClothingDTO(item.getImageUrl(), item.getType()))
-                .collect(Collectors.toList());
+        List<ClothingDTO> resultDtos = wardrobeService.recommendClothing(user, weather);
+
         return ResponseEntity.ok(resultDtos);
     }
 }

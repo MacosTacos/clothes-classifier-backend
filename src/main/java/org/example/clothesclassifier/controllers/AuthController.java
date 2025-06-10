@@ -20,7 +20,6 @@ public class AuthController {
     public ResponseEntity<TokenDTO> register(@RequestBody UserDTO userDto, HttpServletResponse response) {
         TokenDTO tokenDTO = authenticationService.register(userDto);
 
-
         return ResponseEntity.ok(tokenDTO);
     }
 
