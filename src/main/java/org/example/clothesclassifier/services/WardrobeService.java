@@ -1,5 +1,6 @@
 package org.example.clothesclassifier.services;
 
+import org.example.clothesclassifier.dtos.ClothingDTO;
 import org.example.clothesclassifier.dtos.WeatherData;
 import org.example.clothesclassifier.entities.ClothingEntity;
 import org.example.clothesclassifier.entities.UserEntity;
@@ -44,14 +45,18 @@ public class WardrobeService {
 
         ClothingEntity clothing = new ClothingEntity(clothingType, imageUrl, persistentUser);
         clothingRepository.save(clothing);
+
         return clothing;
     }
 
-    public List<ClothingEntity> getUserWardrobe(UserEntity user) {
-        return clothingRepository.findByUser_Id(user.getId());
+    public List<ClothingDTO> getUserWardrobe(UserEntity user) {
+        return clothingRepository.findByUser_Id(user.getId())
+                .stream()
+                .map(item -> new ClothingDTO(item.getImageUrl(), item.getType()))
+                .toList();
     }
 
-    public List<ClothingEntity> recommendClothing(UserEntity user, WeatherData weather) {
+    public List<ClothingDTO> recommendClothing(UserEntity user, WeatherData weather) {
         List<ClothingEntity> wardrobe = clothingRepository.findByUser_Id(user.getId());
         List<ClothingEntity> recommendations = new ArrayList<>();
 
@@ -82,7 +87,10 @@ public class WardrobeService {
                 }
             }
         }
-        return recommendations;
+        return recommendations
+                .stream()
+                .map(item -> new ClothingDTO(item.getImageUrl(), item.getType()))
+                .toList();
     }
 
 }
