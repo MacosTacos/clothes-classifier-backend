@@ -26,11 +26,6 @@ public class WardrobeController {
         this.weatherService = weatherService;
     }
 
-    @GetMapping("/test")
-    public void test(Principal principal) {
-        System.out.println(principal.getName());
-    }
-
     @PostMapping(value = "/upload", consumes = {"multipart/form-data"})
     public ResponseEntity<ClothingDTO> uploadClothing(@RequestParam("file") MultipartFile file,
                                                       Principal principal) throws IOException {
