@@ -55,7 +55,7 @@ public class WardrobeService {
         List<ClothingEntity> wardrobe = clothingRepository.findByUser_Id(user.getId());
         List<ClothingEntity> recommendations = new ArrayList<>();
 
-        int temp = weather.getTemp();
+        long temp = weather.getTemp();
 
         for (ClothingEntity item : wardrobe) {
             String type = item.getType().toLowerCase();

@@ -53,8 +53,9 @@ public class WardrobeController {
     @GetMapping("/recommend")
     public ResponseEntity<List<ClothingDTO>> recommendClothing(@RequestParam("lat") double latitude,
                                                                @RequestParam("lon") double longitude,
+                                                               @RequestParam(value = "forecast", required = false) boolean forecast,
                                                                @AuthenticationPrincipal UserEntity user) {
-        WeatherData weather = weatherService.getWeatherForLocation(latitude, longitude);
+        WeatherData weather = weatherService.getWeatherForLocation(latitude, longitude, forecast);
         List<ClothingEntity> recommendedItems = wardrobeService.recommendClothing(user, weather);
         List<ClothingDTO> resultDtos = recommendedItems.stream()
                 .map(item -> new ClothingDTO(item.getImageUrl(), item.getType()))

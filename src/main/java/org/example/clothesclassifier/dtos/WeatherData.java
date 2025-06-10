@@ -1,13 +1,13 @@
 package org.example.clothesclassifier.dtos;
 
 public class WeatherData {
-    private int temp;
+    private long temp;
 
-    public WeatherData(int temp) {
+    public WeatherData(long temp) {
         this.temp = temp;
     }
 
-    public int getTemp() {
+    public long getTemp() {
         return temp;
     }
 
