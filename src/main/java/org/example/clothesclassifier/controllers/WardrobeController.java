@@ -1,6 +1,7 @@
 package org.example.clothesclassifier.controllers;
 
 import org.example.clothesclassifier.dtos.ClothingDTO;
+import org.example.clothesclassifier.dtos.FileUploadDTO;
 import org.example.clothesclassifier.dtos.WeatherData;
 import org.example.clothesclassifier.entities.ClothingEntity;
 import org.example.clothesclassifier.entities.UserEntity;
@@ -31,6 +32,15 @@ public class WardrobeController {
                                                       Principal principal) throws IOException {
         System.out.println(principal.getName());
         ClothingEntity saved = wardrobeService.addClothingItem(file, principal.getName());
+        ClothingDTO resultDto = new ClothingDTO(saved.getImageUrl(), saved.getType());
+        return ResponseEntity.ok(resultDto);
+    }
+
+    @PostMapping(value = "/upload-v2", consumes = {"multipart/form-data"})
+    public ResponseEntity<ClothingDTO> uploadClothing(@ModelAttribute FileUploadDTO fileUploadDTO,
+                                                      Principal principal) throws IOException {
+        System.out.println(principal.getName());
+        ClothingEntity saved = wardrobeService.addClothingItem(fileUploadDTO.getFile(), principal.getName());
         ClothingDTO resultDto = new ClothingDTO(saved.getImageUrl(), saved.getType());
         return ResponseEntity.ok(resultDto);
     }
