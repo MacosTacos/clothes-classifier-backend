@@ -17,7 +17,7 @@ public class WeatherService {
 
     public WeatherData getWeatherForLocation(double latitude, double longitude, boolean forecast) {
         long temp;
-        if (forecast) {
+        if (!forecast) {
             temp = Math.round(getCurrentTemperature(latitude, longitude));
         } else {
             temp = random.nextInt(46) - 10;

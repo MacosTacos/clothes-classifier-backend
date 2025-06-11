@@ -70,7 +70,7 @@ public class WardrobeService {
                     recommendations.add(item);
                 }
             } else if (temp < 15) {
-                if ((type.contains("jacket") || type.contains("boots") || type.contains("pants") || type.contains("blouse"))) {
+                if ((type.contains("boots") || type.contains("pants") || type.contains("blouse"))) {
                     recommendations.add(item);
                 }
             } else if (temp < 20) {
